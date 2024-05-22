@@ -25,6 +25,9 @@ export default defineConfig(({ command }) => {
       },
       outDir: '../dist',
     },
+    optimizeDeps: {
+      include: ['axios', 'izitoast', 'simplelightbox']
+    },
     plugins: [injectHTML(), FullReload(['./src/**/**.html'])],
   };
 });
