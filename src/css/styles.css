@@ -95,7 +95,17 @@ height: 48px;
 }
 
 .label {
-  display: block;
+  color: #2E2F42;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.33; /* 133.333% */
+  letter-spacing: 0.04em;
+  
+
+
+
 }
 
 .value {
