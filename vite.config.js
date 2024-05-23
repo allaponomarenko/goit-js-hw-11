@@ -1,11 +1,6 @@
 import { defineConfig } from 'vite';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ command }) => {
   return {
@@ -17,9 +12,7 @@ export default defineConfig(({ command }) => {
       sourcemap: true,
 
       rollupOptions: {
-        input: {
-          main: path.resolve(__dirname, 'src/index.html'),
-        },
+        input: 'index.html',
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
@@ -30,9 +23,6 @@ export default defineConfig(({ command }) => {
         },
       },
       outDir: '../dist',
-    },
-    optimizeDeps: {
-      include: ['axios', 'izitoast', 'simplelightbox']
     },
     plugins: [injectHTML(), FullReload(['./src/**/**.html'])],
   };

@@ -1,18 +1,30 @@
-export function renderImages(images) {
-    const gallery = document.getElementById('gallery');
-    gallery.innerHTML = images.map(image => `
-      <div class="image-card">
-        <img src="${image.webformatURL}" alt="${image.tags}">
-        <div class="info">
-          <p>Likes: ${image.likes}</p>
-          <p>Views: ${image.views}</p>
-        </div>
+export function renderImages(container, images) {
+  const markup = images.map((image) => `
+    <div class="image-card">
+      <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+      <div class="info">
+      <p class="info_p">
+      <span class="label">Likes:</span>
+      <span class="value">${image.likes}</span>
+    </p>
+    <p class="info_p">
+      <span class="label">Views:</span>
+      <span class="value">${image.views}</span>
+    </p>
+    <p class="info_p">
+      <span class="label">Comments:</span>
+      <span class="value">${image.comments}</span>
+    </p>
+    <p class="info_p">
+      <span class="label">Downloads:</span>
+      <span class="value">${image.downloads}</span>
+    </p>
       </div>
-    `).join('');
-  }
-  
-  export function clearGallery() {
-    const gallery = document.getElementById('gallery');
-    gallery.innerHTML = '';
-  }
-  
+    </div>
+  `).join('');
+  container.insertAdjacentHTML('beforeend', markup);
+}
+
+export function clearGallery(container) {
+  container.innerHTML = '';
+}

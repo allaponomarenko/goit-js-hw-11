@@ -1,52 +1,39 @@
-import { fetchImages } from './js/pixabay-api.js';
-import { renderImages, clearGallery } from './js/render-functions.js';
+import { fetchImages } from './js/pixabay-api';
+import { renderImages, clearGallery } from './js/render-functions';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-console.log('Main.js is loaded');
+const searchForm = document.querySelector('#search-form');
+const gallery = document.querySelector('.gallery');
 
-const searchForm = document.getElementById('search-form');
-const searchInput = document.getElementById('search-input');
-const loader = document.querySelector('.loader');
+searchForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-console.log('DOM elements are', { searchForm, searchInput, loader });
-
-searchForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  console.log('Form submitted');
-
-  const query = searchInput.value.trim();
+  const query = e.target.elements.query.value.trim();
   if (!query) {
     iziToast.error({
       title: 'Error',
-      message: 'Please enter a search query.',
-      position: 'topCenter',
+      message: 'Please enter a search query',
     });
     return;
   }
 
-  clearGallery();
-  loader.classList.add('visible');
+  clearGallery(gallery);
 
   try {
-    const data = await fetchImages(query);
-    loader.classList.remove('visible');
-
-    if (data.hits.length === 0) {
-      iziToast.warning({
+    const images = await fetchImages(query);
+    if (images.length === 0) {
+      iziToast.info({
         title: 'No Results',
-        message: 'Sorry, there are no images matching your search query. Please try again!',
-        position: 'topCenter',
+        message: 'No images found. Please try a different query.',
       });
-    } else {
-      renderImages(data.hits);
+      return;
     }
+    renderImages(gallery, images);
   } catch (error) {
-    loader.classList.remove('visible');
     iziToast.error({
       title: 'Error',
       message: 'Something went wrong. Please try again later.',
-      position: 'topCenter',
     });
   }
 });
