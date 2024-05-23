@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 11</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Search</title>
+  
+  <link rel="stylesheet" href="/assets/index-ace7ba59.css">
+</head>
+<body>
+  <form id="search-form">
     
-    <script type="module" crossorigin src="/goit-js-hw-11/commonHelpers.js"></script>
-    <link rel="stylesheet" href="/goit-js-hw-11/assets/index-4b092474.css">
-  </head>
-  <body>
-
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder="Search images..." />
-      <button type="submit">Search</button>
+    <input type="text" id="search-input" placeholder="Type your search query here...">
+    <button type="submit">Search</button>
   </form>
-  <div class="loader">Loading...</div>
-  <div class="gallery"></div>
-
-
-      
-  </body>
+  <div id="gallery"></div>
+  
+</body>
 </html>
