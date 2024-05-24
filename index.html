@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Image Search</title>
   
-  <link rel="stylesheet" href="/assets/index-ace7ba59.css">
+  <script type="module" crossorigin src="/goit-js-hw-11/commonHelpers.js"></script>
+  <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-b11e2a50.js">
+  <link rel="stylesheet" href="/goit-js-hw-11/assets/vendor-4b066c51.css">
+  <link rel="stylesheet" href="/goit-js-hw-11/assets/index-065e6bbe.css">
 </head>
 <body>
-  <form id="search-form">
-    
-    <input type="text" id="search-input" placeholder="Type your search query here...">
+  <form class="search-form">
+    <input type="text" name="query" placeholder="Type your search query here..." />
     <button type="submit">Search</button>
   </form>
-  <div id="gallery"></div>
+  <div class="gallery"></div>
   
 </body>
 </html>
