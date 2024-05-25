@@ -1,51 +1,76 @@
-import { Spinner } from 'spin.js';
-import { fetchImages } from './js/pixabay-api';
-import { renderImages, clearGallery } from './js/render-functions';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+import './css/styles.css';
+import PixabayApi from './js/pixabay-api';
+import { onRenderGallery } from './js/render-functions';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-const loader = document.getElementById('loader');
-const opts = {
-  lines: 13, // The number of lines to draw
-  length: 38, // The length of each line
-  width: 17, // The line thickness
-  radius: 45, // The radius of the inner circle
-  scale: 1, // Scales overall size of the spinner
-  corners: 1, // Corner roundness (0..1)
-  speed: 1, // Rounds per second
-  rotate: 0, // The rotation offset
-  animation: 'spinner-line-fade-more', // The CSS animation name for the lines
-  direction: 1, // 1: clockwise, -1: counterclockwise
-  color: '#000', // CSS color or array of colors
-  fadeColor: 'transparent', // CSS color or array of colors
-  top: '50%', // Top position relative to parent
-  left: '50%', // Left position relative to parent
-  shadow: '0 0 1px transparent', // Box-shadow for the lines
-  zIndex: 2000000000, // The z-index (defaults to 2000000000)
-  className: 'spinner', // The CSS class to assign to the spinner
-  position: 'absolute', // Element positioning
+
+const refs = {
+  searchform: document.querySelector('.search-form'),
+  galleryContainer: document.querySelector('.gallery'),
+  loader: document.createElement('div'),
 };
-const spinner = new Spinner(opts);
 
-const searchForm = document.querySelector('.search-form');
-const gallery = document.querySelector('.gallery');
-let lightbox;
+refs.loader.className = 'loader';
+document.body.appendChild(refs.loader);
 
-searchForm.addEventListener('submit', async (event) => {
+const pixabayApi = new PixabayApi();
+
+refs.searchform.addEventListener('submit', onSearch);
+
+function onSearch(event) {
   event.preventDefault();
-  const query = event.target.elements.query.value.trim();
-  if (!query) return;
 
-  clearGallery();
-
-  spinner.spin(loader);
-  try {
-    const images = await fetchImages(query);
-    renderImages(images);
-    lightbox = new SimpleLightbox('.gallery a', { /* options */ });
-  } catch (error) {
-    console.error(error);
-  } finally {
-    spinner.stop();
+  const query = event.currentTarget.elements.query.value.trim();
+  if (!query) {
+    return showToast('red', 'Please, fill the main field', 'topRight'); // Якщо запит порожній, з'являється повідомлення про необхідність заповнити поле, і функція завершується.
   }
-});
+
+  showLoader();
+  refs.galleryContainer.innerHTML = '';
+  pixabayApi.query = query;
+
+  pixabayApi
+    .fetchPhoto()
+    .then(data => {
+      if (data.hits.length === 0) {
+        showToast(
+          'red',
+          'Sorry, there are no images matching your search query. Please try again!',
+          'topRight'
+        );
+      } else {
+        onRenderGallery(data.hits, refs.galleryContainer);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast(
+        'red',
+        'An error occurred while fetching images. Please try again later.',
+        'topRight'
+      );
+    })
+    .finally(() => {
+      hideLoader();
+      refs.searchform.reset();
+    });
+
+  pixabayApi.reset();
+}
+
+function showToast(color, message) {
+  iziToast.show({
+    color: color,
+    message: message,
+    position: 'topRight',
+  });
+}
+
+function showLoader() {
+  refs.loader.style.display = 'block';
+}
+
+function hideLoader() {
+  refs.loader.style.display = 'none';
+}
