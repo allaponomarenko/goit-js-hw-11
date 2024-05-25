@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const API_KEY = '44031619-a947df2c149ce3ba62f1c08d8'; // Замініть 'your-api-key' на ваш фактичний API ключ.
+const API_KEY = '44031619-a947df2c149ce3ba62f1c08d8';
 const BASE_URL = 'https://pixabay.com/api/';
 
 const loader = document.getElementById('loader');
 
 export async function fetchImages(query) {
   try {
-    loader.style.display = 'block'; // Показуємо індикатор завантаження
+    loader.style.display = 'block';
     const response = await axios.get(BASE_URL, {
       params: {
         key: API_KEY,
@@ -22,6 +22,6 @@ export async function fetchImages(query) {
     console.error(error);
     throw error;
   } finally {
-    loader.style.display = 'none'; // Приховуємо індикатор завантаження
+    loader.style.display = 'none';
   }
 }
