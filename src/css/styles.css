@@ -1,6 +1,7 @@
 body {
   font-family: Montserrat, sans-serif;
  margin: 0; 
+ background-color: rgb(242, 245, 245);
 }
 
 :root {
@@ -17,6 +18,11 @@ body {
 }
 
 .search-form {
+  
+    
+    top: 0;
+    left: 0;
+    width: 100%;
   margin: 20px;
   margin-bottom: 20px;
 }
@@ -83,7 +89,7 @@ button:hover {
 .image-card {
   width: calc(100% / 3 - 10px* 2);
  
-
+margin: 5px;
 
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -126,4 +132,13 @@ button:hover {
 .value {
   display: flex;
   justify-content: center;
+}
+
+
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
